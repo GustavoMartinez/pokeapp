@@ -5,12 +5,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.app.pokeapp.ui.login.LoginActivity
 import com.app.pokeapp.ui.screens.HomeScreen
 import com.app.pokeapp.ui.screens.PokemonDetailScreen
+import com.app.pokeapp.ui.screens.StatisticsScreen
+import com.app.pokeapp.ui.screens.StatsScreen
 import com.app.pokeapp.util.SessionManager
 
 /**
@@ -48,6 +51,15 @@ class MainActivity : ComponentActivity() {
                             navController.popBackStack()
                         }
                     }
+                    composable("stats") {
+                        StatisticsScreen (
+                            favoritesViewModel = viewModel(),
+                            onBack = { navController.popBackStack() }
+                        )
+
+
+                    }
+
                 }
             }
         }

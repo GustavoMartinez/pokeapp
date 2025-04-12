@@ -30,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -146,7 +147,8 @@ fun PokemonListScreen(
 @Composable
 fun PokemonItem(pokemon: PokemonEntry, navController: NavController,
                 favoritesViewModel: PokemonFavoritesViewModel ) {
-    val isFavorite = favoritesViewModel.isFavorite(pokemon.name)
+    val favorites by favoritesViewModel.favorites.collectAsState()
+    val isFavorite = remember(favorites) { pokemon.name in favorites }
     val pokemonId = pokemon.url.trimEnd('/').split("/").lastOrNull() ?: "0"
 
     val imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$pokemonId.png"

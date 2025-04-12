@@ -34,8 +34,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.app.pokeapp.data.models.PokemonResponse
 import com.app.pokeapp.data.network.RetrofitInstance
+import com.app.pokeapp.viewmodel.StatisticsViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import retrofit2.Call
@@ -54,11 +56,14 @@ fun PokemonDetailScreen(pokemonName: String, onBack: () -> Unit) {
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
 
+    val statisticsViewModel: StatisticsViewModel = viewModel()
+
     LaunchedEffect(pokemonName) {
         RetrofitInstance.api.getPokemon(pokemonName).enqueue(object : Callback<PokemonResponse> {
             override fun onResponse(call: Call<PokemonResponse>, response: Response<PokemonResponse>) {
                 if (response.isSuccessful) {
                     pokemon = response.body()
+                    statisticsViewModel.registerPokemonSeen() // aquí aumentamos el contador
                 } else {
                     error = "Error: ${response.code()}"
                 }

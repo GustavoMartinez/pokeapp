@@ -4,6 +4,7 @@ import PokemonFavoritesViewModel
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,6 +28,13 @@ fun HomeScreen(navController: NavController, onLogout: () -> Unit) {
             TopAppBar(
                 title = { Text("PokeApp") },
                 actions = {
+
+                    IconButton(onClick = {
+                        navController.navigate("stats")
+                    }) {
+                        Icon(Icons.Default.BarChart, contentDescription = "Estadísticas")
+                    }
+
                     IconButton(onClick = { onLogout() }) {
                         Icon(Icons.Default.ExitToApp, contentDescription = "Logout")
                     }
