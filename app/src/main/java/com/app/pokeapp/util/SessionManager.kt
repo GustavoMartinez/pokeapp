@@ -3,6 +3,9 @@ package com.app.pokeapp.util
 import android.content.Context
 import android.content.SharedPreferences
 
+/**
+ * Clase que contiene funciones para administrar la sesión
+ */
 object SessionManager {
     private const val PREF_NAME = "pokeapp_prefs"
     private const val KEY_IS_LOGGED_IN = "is_logged_in"

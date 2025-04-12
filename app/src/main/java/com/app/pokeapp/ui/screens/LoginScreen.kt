@@ -15,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Componente que inicia el login con GoogleSignIn
+ */
 @Composable
 fun LoginScreen(onGoogleSignIn: () -> Unit) {
     Surface(modifier = Modifier.fillMaxSize()) {

@@ -25,12 +25,12 @@ class LoginActivity : ComponentActivity() {
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
             val account = task.getResult(ApiException::class.java)
-            // ✅ Si se loguea, pasa a MainActivity
+            // Si se loguea, pasa a MainActivity
             SessionManager.setLoggedIn(this, true)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         } catch (e: ApiException) {
-            // ❌ Error al loguearse
+            // Error al loguearse
             e.printStackTrace()
         }
     }

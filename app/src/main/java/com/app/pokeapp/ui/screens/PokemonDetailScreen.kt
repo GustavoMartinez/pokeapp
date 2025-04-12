@@ -42,6 +42,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Componente que muestra en una nueva pantalla al pokemon y sus habilidades
+ * @property pokemonName String del nombre del pokemon
+ * @property onBack función para volver a la lista principal
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PokemonDetailScreen(pokemonName: String, onBack: () -> Unit) {

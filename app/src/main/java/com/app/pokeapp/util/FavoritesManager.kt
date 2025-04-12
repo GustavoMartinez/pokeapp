@@ -3,6 +3,11 @@ package com.app.pokeapp.util
 import android.content.Context
 import android.content.SharedPreferences
 
+/**
+ * Clase que contiene funciones para controlar los favoritos
+ * @property PREF_NAME String estático que se usa en referencia a SharedPreferences
+ * @property KEY_FAVORITES String estático que es la llave de un valor almacenado
+ */
 object FavoritesManager {
     private const val PREF_NAME = "favorites_prefs"
     private const val KEY_FAVORITES = "favorites"

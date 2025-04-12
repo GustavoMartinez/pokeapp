@@ -1,6 +1,5 @@
 package com.app.pokeapp.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,6 +11,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Clase que administra la carga de ítems a la lista
+ */
 class PokemonListViewModel : ViewModel() {
     var pokemonList by mutableStateOf<List<PokemonEntry>>(emptyList())
         private set
@@ -28,6 +30,11 @@ class PokemonListViewModel : ViewModel() {
         loadMorePokemon(initial = true)
     }
 
+    /**
+     * Función que carga más ítems cuando alcanza 20 y se hace scroll
+     * @property limit int que indica la cantidad a cargar
+     * @property initial boolean que verifica si es la primera carga
+     */
     fun loadMorePokemon(limit: Int = 20, initial: Boolean = false) {
         if (isLoading) return
         isLoading = true
@@ -55,6 +62,9 @@ class PokemonListViewModel : ViewModel() {
         })
     }
 
+    /**
+     * Función que trata de cargar nuevamente si hay algún error
+     */
     fun retry() {
         loadMorePokemon(initial = pokemonList.isEmpty())
     }

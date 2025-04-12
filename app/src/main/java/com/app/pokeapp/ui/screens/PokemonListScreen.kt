@@ -1,5 +1,7 @@
 package com.app.pokeapp.ui.screens
 
+import PokemonFavoritesViewModel
+import android.app.Application
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,12 +17,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -40,12 +45,19 @@ import com.app.pokeapp.data.models.PokemonEntry
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 
+/**
+ * Componente que llena la lista de pokemones, sea directamente de la api
+ * o por búsqueda a través de texto
+ * Va cargando la vista con 20 ítems al llegar al los últimos elementos
+ */
 @Composable
 fun PokemonListScreen(
     navController: NavController,
     viewModel: PokemonListViewModel = viewModel()
 ) {
     val pokemonList = viewModel.pokemonList
+    val favoritesViewModel: PokemonFavoritesViewModel = viewModel()
+
     val isLoading = viewModel.isLoading
     val errorMessage = viewModel.errorMessage
 
@@ -83,7 +95,7 @@ fun PokemonListScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             itemsIndexed(filteredList) { index, pokemon ->
-                PokemonItem(pokemon, navController)
+                PokemonItem(pokemon, navController, favoritesViewModel)
 
                 if (index >= filteredList.size - 3 && !isLoading) {
                     viewModel.loadMorePokemon()
@@ -126,9 +138,15 @@ fun PokemonListScreen(
 
 }
 
+/**
+ * Componente que carga las imágenes de los pokemones y también sus nombres
+ * @param pokemon objeto pokemon con nombre y url
+ */
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun PokemonItem(pokemon: PokemonEntry, navController: NavController) {
+fun PokemonItem(pokemon: PokemonEntry, navController: NavController,
+                favoritesViewModel: PokemonFavoritesViewModel ) {
+    val isFavorite = favoritesViewModel.isFavorite(pokemon.name)
     val pokemonId = pokemon.url.trimEnd('/').split("/").lastOrNull() ?: "0"
 
     val imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$pokemonId.png"
@@ -160,6 +178,19 @@ fun PokemonItem(pokemon: PokemonEntry, navController: NavController) {
                 text = pokemon.name.replaceFirstChar { it.uppercaseChar() },
                 style = MaterialTheme.typography.bodyLarge
             )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            IconButton(onClick = {
+                favoritesViewModel.toggleFavorite(pokemon.name)
+            }) {
+                Icon(
+                    imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = if (isFavorite) "Quitar de favoritos" else "Agregar a favoritos",
+                    tint = if (isFavorite) Color.Red else Color.Gray
+                )
+            }
         }
+
     }
 }

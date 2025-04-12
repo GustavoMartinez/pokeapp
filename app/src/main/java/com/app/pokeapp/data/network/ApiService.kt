@@ -7,6 +7,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+/**
+ * Interface que posee los GET para crear las listas de datos
+ */
 interface ApiService {
     @GET("pokemon")
     fun getPokemonList(@Query("limit") limit: Int, @Query("offset") offset: Int): Call<PokemonListResponse>

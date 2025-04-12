@@ -2,6 +2,9 @@ package com.app.pokeapp.data.models
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Clases que contienes los datos extraídos de la API
+ */
 data class PokemonResponse(
     val name: String,
     val sprites: Sprites,

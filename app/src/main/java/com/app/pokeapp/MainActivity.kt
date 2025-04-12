@@ -13,8 +13,13 @@ import com.app.pokeapp.ui.screens.HomeScreen
 import com.app.pokeapp.ui.screens.PokemonDetailScreen
 import com.app.pokeapp.util.SessionManager
 
+/**
+ * Clase principal de la app, que contiene la esctrucura base
+ */
 class MainActivity : ComponentActivity() {
-
+    /**
+     * Cierra la autenticación
+     */
     private fun logout() {
         SessionManager.logout(this)
         val intent = Intent(this, LoginActivity::class.java)
